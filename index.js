@@ -5,7 +5,7 @@ import cors from "cors";
 import routerAuth from "./routes.js";
 import "dotenv/config.js";
 
-const { DB_KEY, PORT = 5000 } = process.env;
+const { PORT } = process.env;
 
 export const app = express();
 
@@ -20,7 +20,7 @@ mongoose.set("strictQuery", true);
 
 mongoose
   .connect(
-    `mongodb+srv://pototzkajan:${DB_KEY}@cluster1.mfusk.mongodb.net/db_weather`
+    "mongodb+srv://pototzkajan:rnhi1IfAwff3Oe2U@cluster1.mfusk.mongodb.net/db_weather"
   )
   .then(() => {
     console.log(`Starting server on port ${PORT}`);
