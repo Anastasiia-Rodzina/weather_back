@@ -5,7 +5,7 @@ import cors from "cors";
 import routerAuth from "./routes.js";
 import "dotenv/config.js";
 
-const { DB_HOST, PORT } = process.env;
+const { DB_HOST, PORT = 5000 } = process.env;
 
 export const app = express();
 
