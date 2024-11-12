@@ -5,7 +5,7 @@ import cors from "cors";
 import routerAuth from "./routes.js";
 import "dotenv/config.js";
 
-const { PORT } = process.env;
+const { DB_HOST, PORT } = process.env;
 
 export const app = express();
 
@@ -19,9 +19,7 @@ app.use("/auth", routerAuth);
 mongoose.set("strictQuery", true);
 
 mongoose
-  .connect(
-    "mongodb+srv://pototzkajan:rnhi1IfAwff3Oe2U@cluster1.mfusk.mongodb.net/db_weather"
-  )
+  .connect(DB_HOST)
   .then(() => {
     console.log(`Starting server on port ${PORT}`);
     app.listen(PORT, () => {
