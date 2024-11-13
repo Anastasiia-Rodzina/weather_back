@@ -60,6 +60,7 @@ export const logout = async (req, res, next) => {
   res.status(204).json();
 };
 
-export const getUsers = (req, res, next) => {
-  res.json("server work");
+export const currentUser = (req, res, next) => {
+  const { _id, name, email } = req.user;
+  res.json({ _id, name, email });
 };

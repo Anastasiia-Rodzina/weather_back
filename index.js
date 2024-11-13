@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import cors from "cors";
-import routerAuth from "./routes.js";
+import routerAuth from "./routes/routesAuth.js";
+import routerCities from "./routes/routesCities.js";
 import "dotenv/config.js";
 
 const { DB_HOST, PORT = 5000 } = process.env;
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/auth", routerAuth);
+app.use("/cities", routerCities);
 
 mongoose.set("strictQuery", true);
 

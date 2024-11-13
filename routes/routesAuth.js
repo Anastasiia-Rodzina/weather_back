@@ -1,12 +1,13 @@
 import express from "express";
-import ctrlWrapper from "./helpers/ctrlWrapper.js";
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
 import {
   login,
   register,
   logout,
-  getUsers,
-} from "./controllers/authController.js";
+  currentUser,
+} from "../controllers/authController.js";
 import { check } from "express-validator";
+import isAuthorized from "../helpers/isAuthorized.js";
 
 const routerAuth = express.Router();
 
@@ -24,6 +25,6 @@ routerAuth.post("/login", ctrlWrapper(login));
 
 routerAuth.post("/logout", ctrlWrapper(logout));
 
-routerAuth.get("/users", ctrlWrapper(getUsers));
+routerAuth.get("/current", isAuthorized, ctrlWrapper(currentUser));
 
 export default routerAuth;
