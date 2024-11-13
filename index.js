@@ -6,8 +6,8 @@ import routerAuth from "./routes/routesAuth.js";
 import routerCities from "./routes/routesCities.js";
 import "dotenv/config.js";
 
-const { DB_HOST, PORT = 5000 } = process.env;
-
+const { DB_HOST } = process.env;
+const port = process.env.PORT || 4000;
 export const app = express();
 
 app.use(cors());
@@ -23,8 +23,8 @@ mongoose.set("strictQuery", true);
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    console.log(`Starting server on port ${PORT}`);
-    app.listen(PORT, () => {
+    console.log(`Starting server on port ${port}`);
+    app.listen(port, () => {
       console.log("Database connection successful");
     });
   })
