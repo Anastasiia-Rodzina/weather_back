@@ -2,10 +2,6 @@ import jwt from "jsonwebtoken";
 import HttpError from "./HttpError.js";
 import User from "../models/user.js";
 
-// import HttpError from "../helpers/HttpError.js";
-
-// import User from "../models/user.js";
-
 const { JWT_SECRET } = process.env;
 
 const isAuthorized = async (req, _, next) => {
