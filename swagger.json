@@ -1,0 +1,333 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User and City Management API",
+    "version": "1.0.0",
+    "description": "API for managing user authentication and city resources, including adding, retrieving, and deleting cities, as well as assigning users to cities."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "User" },
+                  "email": { "type": "string", "example": "user@example.com" },
+                  "password": { "type": "string", "example": "password123" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "User" },
+                        "email": {
+                          "type": "string",
+                          "example": "user@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Validation or request error" },
+          "409": { "description": "Email is already in use" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Log in a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "user@example.com" },
+                  "password": { "type": "string", "example": "password123" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "User" },
+                        "email": {
+                          "type": "string",
+                          "example": "user@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Invalid email or password" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Log out of the system",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "204": { "description": "Logout successful" },
+          "401": { "description": "User is not authorized" }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "summary": "Get the current authenticated user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60b8d295f0d6c81e8e8f30d2"
+                    },
+                    "name": { "type": "string", "example": "User" },
+                    "email": { "type": "string", "example": "user@example.com" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "User is not authorized" }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "summary": "Get all cities assigned to the user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of cities assigned to the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "60b8d295f0d6c81e8e8f30d2"
+                      },
+                      "title": { "type": "string", "example": "Kyiv" },
+                      "assignees": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": { "type": "string", "example": "User" },
+                            "email": {
+                              "type": "string",
+                              "example": "user@example.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "User is not authorized" }
+        }
+      },
+      "post": {
+        "summary": "Add a new city assigned to the user",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string", "example": "Kyiv" }
+                },
+                "required": ["title"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "City created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60b8d295f0d6c81e8e8f30d2"
+                    },
+                    "title": { "type": "string", "example": "Kyiv" },
+                    "assignees": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "60b8d295f0d6c81e8e8f30d2"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "User is not authorized" }
+        }
+      }
+    },
+    "/cities/{id}/add-user": {
+      "patch": {
+        "summary": "Add a user to a city's assignees",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the city"
+          }
+        ],
+        "responses": {
+          "200": { "description": "User added to the city" },
+          "401": { "description": "User is not authorized" },
+          "404": { "description": "City not found" }
+        }
+      }
+    },
+    "/cities/{id}/remove-user": {
+      "patch": {
+        "summary": "Remove a user from a city's assignees",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the city"
+          }
+        ],
+        "responses": {
+          "200": { "description": "User removed from the city" },
+          "401": { "description": "User is not authorized" },
+          "404": { "description": "City not found" }
+        }
+      }
+    },
+    "/cities/{id}": {
+      "delete": {
+        "summary": "Delete a city",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the city to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "City deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "City deleted successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "60b8d295f0d6c81e8e8f30d2"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "User is not authorized" },
+          "404": { "description": "City not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
