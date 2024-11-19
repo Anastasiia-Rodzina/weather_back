@@ -4,13 +4,14 @@ import morgan from "morgan";
 import cors from "cors";
 import routerAuth from "./routes/routesAuth.js";
 import routerCities from "./routes/routesCities.js";
-import "dotenv/config.js";
+import dotenv from "dotenv";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json" assert { type: "json" };
 
+dotenv.config();
 const { DB_HOST } = process.env;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 export const app = express();
 
 app.use(cors());
