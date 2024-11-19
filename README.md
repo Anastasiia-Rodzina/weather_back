@@ -2,8 +2,6 @@
 
 This repository contains the Weather App Backend API project, which provides an API for interacting with the TaskPro application
 
-<a href="https://anastasiia-rodzina.github.io/weather-app/">This is a link to the frontend deploy</a>
-
 <a href="https://github.com/Anastasiia-Rodzina/weather-app">This is a link to the frontend repository</a>
 
 ## Project Overview
