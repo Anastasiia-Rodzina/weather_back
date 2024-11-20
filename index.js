@@ -11,7 +11,7 @@ import swaggerDocument from "./swagger.json" assert { type: "json" };
 
 dotenv.config();
 const { DB_HOST } = process.env;
-const port = process.env.PORT;
+const port = 4000;
 export const app = express();
 
 app.use(cors());
@@ -25,7 +25,7 @@ app.use("/cities", routerCities);
 mongoose.set("strictQuery", true);
 
 mongoose
-  .connect(DB_HOST, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(DB_HOST)
   .then(() => {
     console.log(`Starting server on port ${port}`);
     app.listen(port, () => {
@@ -33,7 +33,7 @@ mongoose
     });
   })
   .catch((error) => {
-    console.log(error.message);
+    console.log("MongoDB connection error:", error.message);
     process.exit(1);
   });
 
